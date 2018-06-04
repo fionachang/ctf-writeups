@@ -7,7 +7,7 @@ Service: `http://xss1.alieni.se:2999/`
 
 Author: `avlidienbrunn`
 
-Points: 51
+Points: `51`
 
 ### How to Solve
 ![Main website](https://github.com/fionachang/ctf-writeups/raw/master/2018/security_fest/img/excess/main.png)
