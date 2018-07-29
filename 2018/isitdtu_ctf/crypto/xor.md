@@ -8,8 +8,6 @@ Points: `100`
 
 ### What It Does
 
-Here is the [source code](files/xor.py):
-
 ```python
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
@@ -46,7 +44,7 @@ print enc_flag
 
 Reverse the source code to get a character of `flag` if the character of `key` is known and vice-versa. `flag` starts with `ISITDTU{` for this CTF. We can use it to get the `key` and `flag`.
 
-Here is the [sample solution](files/xor_soln_partial.py):
+Here is the [partial solution](files/xor_soln_partial.py):
 
 ```python
 #!/bin/python
@@ -108,7 +106,7 @@ if __name__ == "__main__":
 
 Here is the output:
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/crypto$ python xor_soln_partial.py
 flag: ISITDTU{????ome_to_ISITDTUCT????ntest!_Hav3_a_g0????ay._Hope_y0u_w1l????j0y_and_hav3_a_h????rank_1n_0ur_F1rs????f_C0nt3st._Thank??
 key: ??RCr4cKm3
@@ -117,7 +115,7 @@ ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/crypto$
 
 We need to guess some of the characters. The solution is updated to allow the user to guess some characters.
 
-Here is part of the [source code](files/xor_soln.py):
+Here is part of the [solution](files/xor_soln.py):
 
 ```python
 #!/bin/python
@@ -206,7 +204,7 @@ if __name__ == "__main__":
 
 By guessing the last character of `flag` as the padding ` `, `flag` contains non-ASCII characters. Hence, there is no padding in `flag`.
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/cryto$ python xor_soln.py 
 flag: ISITDTU{????ome_to_ISITDTUCT????ntest!_Hav3_a_g0????ay._Hope_y0u_w1l????j0y_and_hav3_a_h????rank_1n_0ur_F1rs????f_C0nt3st._Thank??
 key: ??RCr4cKm3
@@ -226,9 +224,9 @@ KeyboardInterrupt
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/crypto$ 
 ```
 
-The last character of `flag` should be `}`, which is the suffix of most CTF flags. By guessing the second character of `key` as `o`, we get the flag.
+The last character of `flag` should be `}`, which is the suffix of most CTF flags. By guessing the second character of `key` as `o` based on the title of the challenge, we get the flag.
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/crypto$ python xor_soln.py 
 flag: ISITDTU{????ome_to_ISITDTUCT????ntest!_Hav3_a_g0????ay._Hope_y0u_w1l????j0y_and_hav3_a_h????rank_1n_0ur_F1rs????f_C0nt3st._Thank??
 key: ??RCr4cKm3

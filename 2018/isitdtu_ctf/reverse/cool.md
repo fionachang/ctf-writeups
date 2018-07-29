@@ -8,7 +8,7 @@ Points: `100`
 
 ### What It Does
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/reverse$ file cool
 cool: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=a36ca24ca7c6183e3d50a4c76281a61675a4e875, stripped
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/reverse$ 
@@ -16,7 +16,7 @@ ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/reverse$
 
 Here is the sample output:
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/reverse$ ./cool 
 Give me your key: A
 Wrong~
@@ -27,7 +27,7 @@ ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/reverse$
 
 Here are some useful strings in the binary:
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/reverse$ strings cool
 ...
 time out!
@@ -62,7 +62,7 @@ Since the binary is stripped, we have to find the function that prints the flag.
 
 ![Pseudocode](img/cool_pseudocode.png)
 
-Line `16` shows that the length of the user input is `28`. Lines `20` to `29` show that the user input starts with `fl4g_i5_h3r3`. Line `30` shows that the next character is byte `33` which is `!`.
+Line `16` shows that the length of the user input is `28`. Lines `20` to `29` show that the user input starts with `fl4g_i5_h3r3`. Line `30` shows that the next character is the decimal `33`, which is the character `!`.
 
 The user input starts with `fl4g_i5_h3r3!`. We have to reverse lines `32` to `39` to get the rest of the user input.
 
@@ -74,7 +74,7 @@ Here is the byte array:
 
 Reverse lines `32` to `39` using the byte array to get the rest of the user input.
 
-Here is the [source code](files/cool_soln.py) of the solution:
+Here is the [solution](files/cool_soln.py):
 
 ```python
 #!/bin/python
@@ -116,7 +116,7 @@ if __name__ == "__main__":
 
 Here is the output:
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/reverse$ python cool_soln.py 
 [+] Starting local process './cool': pid 15265
 [*] Process './cool' stopped with exit code 0 (pid 15265)

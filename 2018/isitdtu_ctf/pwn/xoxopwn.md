@@ -10,7 +10,7 @@ Points: `601`
 
 The maximum length of the user input is 21 characters.
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
 This is function x()>>> A
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ python -c 'print "A" * 22' | nc 178.128.12.234 10002
@@ -19,7 +19,7 @@ This is function x()>>> Big size ~ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn
 
 The process is written in python and the function is evaluating the user input. If there are any exceptions, nothing will be printed.
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
 This is function x()>>> 1
 1ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
@@ -37,21 +37,33 @@ The function definition of `x()` can be viewed in the [xoxopwn_soln.out](files/x
 
 Using builtin python functions, we know more about the process and that the flag is in function `o()`.
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
 This is function x()>>> globals()
 {'server_thread': <Thread(Thread-1, started daemon 140225032603392)>, 'ThreadedTCPRequestHandler': <class __main__.ThreadedTCPRequestHandler at 0x7f88b0d32530>, 'ThreadedTCPServer': <class __main__.ThreadedTCPServer at 0x7f88b0d324c8>, 'socket': <module 'socket' from '/usr/lib/python2.7/socket.pyc'>, 'SocketServer': <module 'SocketServer' from '/usr/lib/python2.7/SocketServer.pyc'>, '__builtins__': <module '__builtin__' (built-in)>, '__file__': '/home/xoxopwn/xoxopwn.py', 'o': <function o at 0x7f88b0d21c80>, '__package__': None, 'port': 9999, 'threading': <module 'threading' from '/usr/lib/python2.7/threading.pyc'>, 'host': '0.0.0.0', 'x': <function x at 0x7f88b0d2e050>, '__name__': '__main__', '__doc__': None, 'serverthuong123': <__main__.ThreadedTCPServer instance at 0x7f88b0d19e18>}ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
 This is function x()>>> locals()
-{'a': 'locals()', 'xxx': 'finding secret in o()'}ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
-This is function x()>>> dir(x)  
+{'a': 'locals()', 'xxx': 'finding secret in o()'}ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ 
+```
+
+However, evaluating `o()` do not give us the flag.
+
+```shellsession
+ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
+This is function x()>>> o()  
+ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
+This is function x()>>> o("A")
+Noneubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
+This is function x()>>> dir(o)
 ['__call__', '__class__', '__closure__', '__code__', '__defaults__', '__delattr__', '__dict__', '__doc__', '__format__', '__get__', '__getattribute__', '__globals__', '__hash__', '__init__', '__module__', '__name__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'func_closure', 'func_code', 'func_defaults', 'func_dict', 'func_doc', 'func_globals', 'func_name']ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ 
 ```
+
+We have to look at the source code of `o()` to get the flag.
 
 The `__code__` and `func_code` attribute of a python function is the code object of the function. It contains the bytecode and other information of the function. Using the code object, we can create the `.pyc` python compiled code file. With the `.pyc` file, we can decompile it to obtain the source code.
 
 To create the code object, we need a few parameters.
 
-```shell
+```shellsession
 In [1]: from types import CodeType
 
 In [2]: CodeType?
@@ -66,9 +78,9 @@ Create a code object.  Not for the faint of heart.
 In [3]: 
 ```
 
-We can get the parameters by inspecting the attributes of code object.
+We can get the parameters by inspecting the attributes of the code object, mainly using the `co_*` attributes.
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
 This is function x()>>> dir(o.__code__)
 ['__class__', '__cmp__', '__delattr__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'co_argcount', 'co_cellvars', 'co_code', 'co_consts', 'co_filename', 'co_firstlineno', 'co_flags', 'co_freevars', 'co_lnotab', 'co_name', 'co_names', 'co_nlocals', 'co_stacksize', 'co_varnames']ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ 
@@ -76,7 +88,7 @@ This is function x()>>> dir(o.__code__)
 
 However, we can only get some of the parameters due to the length restriction on the user input.
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
 This is function x()>>> o.__code__.co_nlocals
 5ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
@@ -95,9 +107,9 @@ This is function x()>>> o.__code__.co_lnotab
             ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ 
 ```
 
-To get `argcount`, we can test whether the function outputs anything. `o()` has 1 `argcount`.
+To get `argcount`, we can test whether the function outputs anything. `argcount` for `o()` is `1`.
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
 This is function x()>>> o()
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ nc 178.128.12.234 10002
@@ -109,7 +121,7 @@ ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$
 
 To get `varnames` and `firstlineno`, we can use the disassembly of the bytecode.
 
-```shell
+```shellsession
 In [3]: import dis
 
 In [4]: codestring = "d\x01\x00}\x01\x00|\x01\x00j\x00\x00d\x02\x00\x83\x01\x00}\x01\x00d\x03\x00}\x02\x00d\x04\x00}\x03\x00xL\x00t\x01\x00t\x02\x00|\x00\x00\x83\x01\x00\x83\x01\x00D]8\x00}\x04\x00|\x03\x00t\x03\x00t\x04\x00|\x00\x00|\x04\x00\x19\x83\x01\x00t\x04\x00|\x02\x00|\x04\x00t\x02\x00|\x00\x00\x83\x01\x00\x16\x19\x83\x01\x00A\x83\x01\x007}\x03\x00q4\x00W|\x03\x00|\x01\x00k\x02\x00r\x84\x00d\x05\x00GHn\x05\x00d\x06\x00GHd\x00\x00S"
@@ -174,13 +186,13 @@ In [5]: dis.dis(bytecode)
 In [6]: 
 ```
 
-We can obtain the variable count by getting the maximum index of "LOAD_FAST" and "STORE_FAST" in the third column of the `dis.dis()` output. Then, make a tuple of random variable names with the size of variable count. Hence, the variable count is 5 and `varnames` will be `("a", "b", "c", "d", "e")`.
+We can obtain the number of variables by getting the maximum index of `LOAD_FAST` and `STORE_FAST` in the third column of the `dis.dis()` output. Then, make a tuple of random variable names of that size to get `varnames`. Hence, the number of variables is `5` and `varnames` will be `("a", "b", "c", "d", "e")`.
 
 `firstlineno` is `0` based on the first column of the first line of the `dis.dis()` output.
 
 `stacksize` is `1` by getting the `stacksize` of a dummy function.
 
-```shell
+```shellsession
 In [6]: def func():
    .....:     pass
    .....: 
@@ -195,40 +207,46 @@ In [8]:
 
 With all the required parameters, we can create the code object.
 
-```shell
-In [8]: argcount = 1
+```shellsession
+In [8]: from types import CodeType
 
-In [9]: nlocals = 5
+In [9]: argcount = 1
 
-In [10]: stacksize = 1
+In [10]: nlocals = 5
 
-In [11]: flags = 67
+In [11]: stacksize = 1
 
-In [12]: codestring = 'd\x01\x00}\x01\x00|\x01\x00j\x00\x00d\x02\x00\x83\x01\x00}\x01\x00d\x03\x00}\x02\x00d\x04\x00}\x03\x00xL\x00t\x01\x00t\x02\x00|\x00\x00\x83\x01\x00\x83\x01\x00D]8\x00}\x04\x00|\x03\x00t\x03\x00t\x04\x00|\x00\x00|\x04\x00\x19\x83\x01\x00t\x04\x00|\x02\x00|\x04\x00t\x02\x00|\x00\x00\x83\x01\x00\x16\x19\x83\x01\x00A\x83\x01\x007}\x03\x00q4\x00W|\x03\x00|\x01\x00k\x02\x00r\x84\x00d\x05\x00GHn\x05\x00d\x06\x00GHd\x00\x00S'
+In [12]: flags = 67
 
-In [13]: constants = (None, '392a3d3c2b3a22125d58595733031c0c070a043a071a37081d300b1d1f0b09', 'hex', 'pythonwillhelpyouopenthedoor', '', 'Open the door', 'Close the door')
+In [13]: codestring = 'd\x01\x00}\x01\x00|\x01\x00j\x00\x00d\x02\x00\x83\x01\x00}\x01\x00d\x03\x00}\x02\x00d\x04\x00}\x03\x00xL\x00t\x01\x00t\x02\x00|\x00\x00\x83\x01\x00\x83\x01\x00D]8\x00}\x04\x00|\x03\x00t\x03\x00t\x04\x00|\x00\x00|\x04\x00\x19\x83\x01\x00t\x04\x00|\x02\x00|\x04\x00t\x02\x00|\x00\x00\x83\x01\x00\x16\x19\x83\x01\x00A\x83\x01\x007}\x03\x00q4\x00W|\x03\x00|\x01\x00k\x02\x00r\x84\x00d\x05\x00GHn\x05\x00d\x06\x00GHd\x00\x00S'
 
-In [14]: names = ('decode', 'xrange', 'len', 'chr', 'ord')
+In [14]: constants = (None, '392a3d3c2b3a22125d58595733031c0c070a043a071a37081d300b1d1f0b09', 'hex', 'pythonwillhelpyouopenthedoor', '', 'Open the door', 'Close the door')
 
-In [15]: varnames = ('a', 'b', 'c', 'd', 'e')
+In [15]: names = ('decode', 'xrange', 'len', 'chr', 'ord')
 
-In [16]: filename = '/home/xoxopwn/xoxopwn.py'
+In [16]: varnames = ('a', 'b', 'c', 'd', 'e')
 
-In [17]: name = 'o'
+In [17]: filename = '/home/xoxopwn/xoxopwn.py'
 
-In [18]: firstlineno = 0
+In [18]: name = 'o'
 
-In [19]: lnotab = '\x00\x01\x06\x01\x0f\x01\x06\x01\x06\x01\x19\x016\x01\x0c\x01\x08\x02'
+In [19]: firstlineno = 0
 
-In [20]: code = CodeType(argcount, nlocals, stacksize, flags, codestring, constants, names, varnames, filename, name, firstlineno, lnotab)
+In [20]: lnotab = '\x00\x01\x06\x01\x0f\x01\x06\x01\x06\x01\x19\x016\x01\x0c\x01\x08\x02'
 
-In [21]: 
+In [21]: code = CodeType(argcount, nlocals, stacksize, flags, codestring, constants, names, varnames, filename, name, firstlineno, lnotab)
+
+In [22]: 
 ```
 
 Create the `.pyc` file using the code object.
 
-```shell
-In [21]: with open("xoxopwn_o.pyc", "wb") as f:
+```shellsession
+In [22]: import marshal
+
+In [23]: import py_compile
+
+In [24]: with open("xoxopwn_o.pyc", "wb") as f:
    ....:     f.write("\0\0\0\0")
    ....:     py_compile.wr_long(f, long(time.time()))
    ....:     marshal.dump(code, f)
@@ -237,12 +255,12 @@ In [21]: with open("xoxopwn_o.pyc", "wb") as f:
    ....:     f.write(py_compile.MAGIC)
    ....:     
 
-In [22]: 
+In [25]: 
 ```
 
 Decompile the `.pyc` file to get the source code. `a` is the user input.
 
-```shell
+```shellsession
 ubuntu@ubuntu-xenial:/ctf/2018/isitdtu_ctf/pwn$ uncompyle6 xoxopwn_o.pyc 
 # uncompyle6 version 3.2.3
 # Python bytecode 2.7 (62211)
@@ -274,16 +292,23 @@ for e in xrange(len(a)):
 
 Reverse the code to get the flag.
 
-```python
-b = "392a3d3c2b3a22125d58595733031c0c070a043a071a37081d300b1d1f0b09"
-b = b.decode("hex")
-c = "pythonwillhelpyouopenthedoor"
-d = ""
+```shellsession
+In [25]: b = "392a3d3c2b3a22125d58595733031c0c070a043a071a37081d300b1d1f0b09"
 
-for e in xrange(len(b)):
-    d += chr(ord(b[e]) ^ ord(c[e % len(c)]))
+In [26]: b = b.decode("hex")
 
-print d
+In [27]: c = "pythonwillhelpyouopenthedoor"
+
+In [28]: d = ""
+
+In [29]: for e in xrange(len(b)):
+   ....:     d += chr(ord(b[e]) ^ ord(c[e % len(c)]))
+   ....:     
+
+In [30]: print d
+ISITDTU{1412_secret_in_my_door}
+
+In [31]: 
 ```
 
 **Flag: `ISITDTU{1412_secret_in_my_door}`**
