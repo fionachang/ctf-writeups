@@ -246,7 +246,9 @@ In [22]: import marshal
 
 In [23]: import py_compile
 
-In [24]: with open("xoxopwn_o.pyc", "wb") as f:
+In [24]: import time
+
+In [25]: with open("xoxopwn_o.pyc", "wb") as f:
    ....:     f.write("\0\0\0\0")
    ....:     py_compile.wr_long(f, long(time.time()))
    ....:     marshal.dump(code, f)
@@ -255,7 +257,7 @@ In [24]: with open("xoxopwn_o.pyc", "wb") as f:
    ....:     f.write(py_compile.MAGIC)
    ....:     
 
-In [25]: 
+In [26]: 
 ```
 
 Decompile the `.pyc` file to get the source code. `a` is the user input.
@@ -293,22 +295,22 @@ for e in xrange(len(a)):
 Reverse the code to get the flag.
 
 ```shellsession
-In [25]: b = "392a3d3c2b3a22125d58595733031c0c070a043a071a37081d300b1d1f0b09"
+In [26]: b = "392a3d3c2b3a22125d58595733031c0c070a043a071a37081d300b1d1f0b09"
 
-In [26]: b = b.decode("hex")
+In [27]: b = b.decode("hex")
 
-In [27]: c = "pythonwillhelpyouopenthedoor"
+In [28]: c = "pythonwillhelpyouopenthedoor"
 
-In [28]: d = ""
+In [29]: d = ""
 
-In [29]: for e in xrange(len(b)):
+In [30]: for e in xrange(len(b)):
    ....:     d += chr(ord(b[e]) ^ ord(c[e % len(c)]))
    ....:     
 
-In [30]: print d
+In [31]: print d
 ISITDTU{1412_secret_in_my_door}
 
-In [31]: 
+In [32]: 
 ```
 
 **Flag: `ISITDTU{1412_secret_in_my_door}`**
