@@ -1,4 +1,5 @@
 # Excess
+
 Category: `web`
 
 Description: `This is some kind of reverse captcha to tell if the visitor is indeed a robot. Can you complete it?`
@@ -9,8 +10,13 @@ Author: `avlidienbrunn`
 
 Points: `51`
 
+### What It Does
+
+This is on XSS. We have to make an `alert(1)` pop-up and submit the URL to get the flag.
+
+![Main website](img/excess_main.png)
+
 ### How to Solve
-![Main website](/2018/security_fest/img/excess/main.png)
 
 The website provides a link to `http://xss1.alieni.se:2999/?xss=hello` but the link looks the same as the website. Here is the page source:
 
@@ -68,7 +74,7 @@ The GET parameter `xss` controls the variable declared in a script tag in the pa
 
 Browsing to `http://xss1.alieni.se:2999/?xss='; alert(1); '` shows a prompt instead.
 
-![Initial payload](/2018/security_fest/img/excess/initial_payload.png)
+![Initial payload](img/excess_initial_payload.png)
 
 The page source indicates that the script was successfully injected.
 
@@ -128,10 +134,10 @@ Browse to the following link to test our payload:
 http://xss1.alieni.se:2999/?xss='; window.alert = window.open().alert; window.alert(1); '
 ```
 
-![Final payload](/2018/security_fest/img/excess/final_payload.png)
+![Final payload](img/excess_final_payload.png)
 
 Enter the link to get the flag.
 
-![Flag](/2018/security_fest/img/excess/flag.png)
+![Flag](img/excess_flag.png)
 
 **Flag: `sctf{cr0ss_s1te_n0scr1ptinG}`**

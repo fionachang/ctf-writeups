@@ -1,0 +1,102 @@
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[x] Opening connection to 178.128.12.234 on port 10002
+[x] Opening connection to 178.128.12.234 on port 10002: Trying 178.128.12.234
+[+] Opening connection to 178.128.12.234 on port 10002: Done
+[*] Closed connection to 178.128.12.234 port 10002
+[*] def x(a):
+    # uncompyle6 version 3.2.3
+    # Python bytecode 2.7 (62211)
+    # Decompiled from: Python 2.7.12 (default, Dec  4 2017, 14:50:18) 
+    # [GCC 5.4.0 20160609]
+    # Embedded file name: /home/xoxopwn/xoxopwn.py
+    # Compiled at: 2018-07-29 18:57:06
+    b = 'finding secret in o()'
+    if len(a) > 21:
+        return 'Big size ~'
+    return eval(a)
+[*] def o(a):
+    # uncompyle6 version 3.2.3
+    # Python bytecode 2.7 (62211)
+    # Decompiled from: Python 2.7.12 (default, Dec  4 2017, 14:50:18) 
+    # [GCC 5.4.0 20160609]
+    # Embedded file name: /home/xoxopwn/xoxopwn.py
+    # Compiled at: 2018-07-29 18:57:06
+    b = '392a3d3c2b3a22125d58595733031c0c070a043a071a37081d300b1d1f0b09'
+    b = b.decode('hex')
+    c = 'pythonwillhelpyouopenthedoor'
+    d = ''
+    for e in xrange(len(a)):
+        d += chr(ord(a[e]) ^ ord(c[e % len(a)]))
+    
+    if d == b:
+        print 'Open the door'
+    else:
+        print 'Close the door'
+[+] Flag: ISITDTU{1412_secret_in_my_door}
